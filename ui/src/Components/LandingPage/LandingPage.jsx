@@ -3,16 +3,18 @@ import { Button, Card, Tag, Typography } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { DndProvider } from  "react-dnd";
 import config from '../../config';
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
+import DropZone from '../AddApplication/DropZone';
 import './LandingPage.scss';
 
 const columns = {
 	applied: 'Applied',
 	inReview: 'In Review',
 	interview: 'Interview',
-	decision: 'Decision',
+	decision: 'Decision'
 };
 
 export default function LandingPage() {
@@ -59,7 +61,12 @@ export default function LandingPage() {
 			<div className="MainContent">
 				{Object.keys(columns).map((col) => (
 					<div className="Status" key={col}>
-						<Typography.Title level={5}>{columns[col]}</Typography.Title>
+						<Typography.Title level={5}>
+							
+							{columns[col]}
+							
+						</Typography.Title>
+						
 						{loading ? (
 							<>
 								<Card loading bordered={false} />
@@ -85,6 +92,7 @@ export default function LandingPage() {
 													id={application.jobId + 'edit'}
 												/>
 											}
+											draggable={true}
 											className="Job"
 											bordered={false}
 											actions={

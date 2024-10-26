@@ -4,6 +4,7 @@
 # production
 /build
 /coverage
+/backend/venv
 
 .DS_Store
 npm-debug.log*
