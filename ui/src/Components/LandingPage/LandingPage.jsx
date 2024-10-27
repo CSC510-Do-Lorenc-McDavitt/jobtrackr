@@ -3,7 +3,9 @@ import { Button, Card, Tag, Typography } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { DndProvider } from  "react-dnd";
+import { DndProvider} from  "react-dnd";
+import  Draggable from 'react-draggable';
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import config from '../../config';
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
@@ -66,6 +68,9 @@ export default function LandingPage() {
 							{columns[col]}
 							
 						</Typography.Title>
+						<DndProvider backend={HTML5Backend}>
+							<DropZone></DropZone>
+						</DndProvider>
 						
 						{loading ? (
 							<>
@@ -81,45 +86,47 @@ export default function LandingPage() {
 											['rejected', 'accepted'].includes(
 												application.status
 											))) && (
-										<Card
-											key={col + index}
-											title={application.companyName}
-											extra={
-												<Button
-													type="text"
-													icon={<EditFilled />}
-													onClick={() => setEditApplication(application)}
-													id={application.jobId + 'edit'}
-												/>
-											}
-											draggable={true}
-											className="Job"
-											bordered={false}
-											actions={
-												['rejected', 'accepted'].includes(
-													application.status
-												) && [
-													application.status === 'accepted' ? (
-														<Tag color="#87d068">Accepted</Tag>
-													) : (
-														application.status === 'rejected' && (
-															<Tag color="#f50">Rejected</Tag>
-														)
-													),
-												]
-											}
-										>
-											ID: {application.jobId}
-											<br />
-											Title: {application.jobTitle}
-											<br />
-											{'URL: '}
-											<a href={'//' + application.url} target={'_blank'}>
-												{application.url}
-											</a>
-											<br />
-											Notes: {application.description}
-										</Card>
+											<Draggable>
+												<Card
+													key={col + index}
+													title={application.companyName}
+													extra={
+														<Button
+															type="text"
+															icon={<EditFilled />}
+															onClick={() => setEditApplication(application)}
+															id={application.jobId + 'edit'}
+														/>
+													}
+													
+													className="Job"
+													bordered={false}
+													actions={
+														['rejected', 'accepted'].includes(
+															application.status
+														) && [
+															application.status === 'accepted' ? (
+																<Tag color="#87d068">Accepted</Tag>
+															) : (
+																application.status === 'rejected' && (
+																	<Tag color="#f50">Rejected</Tag>
+																)
+															),
+														]
+													}
+												>
+													ID: {application.jobId}
+													<br />
+													Title: {application.jobTitle}
+													<br />
+													{'URL: '}
+													<a href={'//' + application.url} target={'_blank'}>
+														{application.url}
+													</a>
+													<br />
+													Notes: {application.description}
+												</Card>
+											</Draggable>
 									)
 							)
 						)}
