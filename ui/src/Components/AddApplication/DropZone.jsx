@@ -8,7 +8,7 @@ import { Button, Card, Tag, Typography } from 'antd';
 
 const DropZone = () => {
   const [{ canDrop, isOver }, drop] = useDrop({
-    accept: 'Card', // Specify the type of items you want to accept
+    accept: 'CARD', // Specify the type of items you want to accept
     drop: (item) => {
       // Handle the dropped item here
       console.log('Dropped item:', item);

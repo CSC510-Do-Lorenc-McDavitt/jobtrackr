@@ -3,7 +3,7 @@ import { Button, Card, Tag, Typography } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { DndProvider} from  "react-dnd";
+import { DndProvider } from  "react-dnd";
 import  Draggable from 'react-draggable';
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import config from '../../config';
@@ -21,6 +21,10 @@ const columns = {
 
 export default function LandingPage() {
 	const [applications, setApplications] = useState([]);
+	const [applied, setApplied] = useState([]);
+	const [inReview, setInReview] = useState([]);
+	const [interview, setInterview] = useState([]);
+	const [decision, setDecision] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
 	const [editApplication, setEditApplication] = useState(false);
@@ -33,7 +37,23 @@ export default function LandingPage() {
 	const updateApplications = () => {
 		axios
 			.get(`${config.base_url}/view_applications?email=` + state.email)
-			.then(({ data }) => setApplications(data.applications))
+			.then(({ data }) => {
+				for (let i = 0; i < data.applications.length; i++) {
+					if (data.applications[i].status === "applied") {
+						setApplied([...applied, data.applications[i]])
+					}
+					else if (data.applications[i].status === "inReview") {
+						setInReview([...inReview, data.applications[i]])
+					}
+					else if (data.applications[i].status === "interview") {
+						setInterview([...interview, data.applications[i]])
+					}
+					else if (data.applications[i].status === "decision") {
+						setDecision([...decision, data.applications[i]])
+					}
+				}
+				
+			})
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
@@ -79,56 +99,60 @@ export default function LandingPage() {
 								<Card loading bordered={false} />
 							</>
 						) : (
-							applications.map(
-								(application, index) =>
-									(application.status === col ||
-										(col === 'decision' &&
-											['rejected', 'accepted'].includes(
-												application.status
-											))) && (
-											<Draggable>
-												<Card
-													key={col + index}
-													title={application.companyName}
-													extra={
-														<Button
-															type="text"
-															icon={<EditFilled />}
-															onClick={() => setEditApplication(application)}
-															id={application.jobId + 'edit'}
-														/>
-													}
-													
-													className="Job"
-													bordered={false}
-													actions={
-														['rejected', 'accepted'].includes(
-															application.status
-														) && [
-															application.status === 'accepted' ? (
-																<Tag color="#87d068">Accepted</Tag>
-															) : (
-																application.status === 'rejected' && (
-																	<Tag color="#f50">Rejected</Tag>
-																)
-															),
-														]
-													}
-												>
-													ID: {application.jobId}
-													<br />
-													Title: {application.jobTitle}
-													<br />
-													{'URL: '}
-													<a href={'//' + application.url} target={'_blank'}>
-														{application.url}
-													</a>
-													<br />
-													Notes: {application.description}
-												</Card>
-											</Draggable>
-									)
-							)
+							<ul>
+								{
+								applied.map(
+									(application, index) =>
+										(application.status === col ||
+											(col === 'decision' &&
+												['rejected', 'accepted'].includes(
+													application.status
+												))) && (
+												<Draggable>
+													<Card
+														key={col + index}
+														title={application.companyName}
+														extra={
+															<Button
+																type="text"
+																icon={<EditFilled />}
+																onClick={() => setEditApplication(application)}
+																id={application.jobId + 'edit'}
+															/>
+														}
+														
+														className="Job"
+														bordered={false}
+														actions={
+															['rejected', 'accepted'].includes(
+																application.status
+															) && [
+																application.status === 'accepted' ? (
+																	<Tag color="#87d068">Accepted</Tag>
+																) : (
+																	application.status === 'rejected' && (
+																		<Tag color="#f50">Rejected</Tag>
+																	)
+																),
+															]
+														}
+													>
+														ID: {application.jobId}
+														<br />
+														Title: {application.jobTitle}
+														<br />
+														{'URL: '}
+														<a href={'//' + application.url} target={'_blank'}>
+															{application.url}
+														</a>
+														<br />
+														Notes: {application.description}
+													</Card>
+												</Draggable>
+										)
+								)
+							}
+							</ul>
 						)}
 						{applications.length === 0 && 'No applications found.'}
 					</div>
