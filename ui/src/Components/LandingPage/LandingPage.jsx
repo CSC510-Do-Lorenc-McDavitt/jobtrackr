@@ -11,6 +11,7 @@ import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
 import DropZone from '../AddApplication/DropZone';
 import './LandingPage.scss';
+import ApplicationCard from '../AddApplication/ApplicationCard';
 
 const columns = {
 	applied: 'Applied',
@@ -108,51 +109,15 @@ export default function LandingPage() {
 												['rejected', 'accepted'].includes(
 													application.status
 												))) && (
-												<Draggable>
-													<Card
-														key={col + index}
-														title={application.companyName}
-														extra={
-															<Button
-																type="text"
-																icon={<EditFilled />}
-																onClick={() => setEditApplication(application)}
-																id={application.jobId + 'edit'}
-															/>
-														}
-														
-														className="Job"
-														bordered={false}
-														actions={
-															['rejected', 'accepted'].includes(
-																application.status
-															) && [
-																application.status === 'accepted' ? (
-																	<Tag color="#87d068">Accepted</Tag>
-																) : (
-																	application.status === 'rejected' && (
-																		<Tag color="#f50">Rejected</Tag>
-																	)
-																),
-															]
-														}
-													>
-														ID: {application.jobId}
-														<br />
-														Title: {application.jobTitle}
-														<br />
-														{'URL: '}
-														<a href={'//' + application.url} target={'_blank'}>
-															{application.url}
-														</a>
-														<br />
-														Notes: {application.description}
-													</Card>
-												</Draggable>
+												
+											<ApplicationCard application={application} key={col + index} modalFunc={setEditApplication}></ApplicationCard>
+											
 										)
 								)
 							}
 							</ul>
+
+								
 						)}
 						{applications.length === 0 && 'No applications found.'}
 					</div>

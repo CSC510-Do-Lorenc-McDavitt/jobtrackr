@@ -4,6 +4,7 @@ import EditApplication from './EditApplication';
 import axios from 'axios';
 import { useState } from 'react';
 import { Button, Card, Tag, Typography } from 'antd';
+import '../LandingPage/LandingPage.scss';
 
 
 const DropZone = () => {
