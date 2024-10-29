@@ -22,6 +22,7 @@ const signedInPages = {
 	'/interested': 'Saved Jobs',
 	'/files': 'Manage Files',
 	'/qa': 'Q & A',
+	'/resume': 'Resume Suggestions'
 };
 
 export default function App() {
