@@ -24,6 +24,7 @@ const signedInPages = {
 	'/files': 'Manage Files',
 	'/qa': 'Q & A',
     '/cv': 'Cover Letter',
+	'/resume': 'Resume Suggestions'
 };
 
 export default function App() {
