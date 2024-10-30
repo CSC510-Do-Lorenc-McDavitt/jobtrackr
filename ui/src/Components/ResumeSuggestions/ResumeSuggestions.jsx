@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Tag, Typography } from 'antd';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+<<<<<<< HEAD
 import { DownloadOutlined } from '@ant-design/icons';
 import { PlusOutlined } from '@ant-design/icons';
 import config from '../../config';
@@ -76,4 +77,15 @@ export function ResumeSuggestions() {
         
     );
     
+=======
+import config from '../../config';
+import './ResumeSuggestions.scss'
+
+export function ResumeSuggestions() {
+
+    
+    return (
+
+    );
+>>>>>>> 2589deb8ef389a5138f28519da6fe658e67e3437
 }
