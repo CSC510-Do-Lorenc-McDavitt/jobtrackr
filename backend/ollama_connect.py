@@ -228,7 +228,7 @@ def generate_cv(Files):
     except Exception as e:
         return jsonify({'error': "Something went wrong"}), 400
     
-def resume_suggest():
+def resume_suggest(Files):
     """
     Reviews a resume and provides suggestions to tailor it for a job description.
     ```
@@ -248,7 +248,7 @@ def resume_suggest():
     try:
         if request:
             req = request.get_json()
-            resume = req["resume"]
+            resume = get_pdf_info(req["file"], Files, req["email"])
             job_desc = req["job_desc"]
             
             messages = [

@@ -35,7 +35,7 @@ export default function MakeCoverLetter({ isOpen, onClose, updateCoverLetter }) 
             .post(`${config.base_url}/generate_cv`, { ...values, email: state.email, file: selectedFile })
             .then(({ data }) => {
                 message.success(data.message);
-                updateCoverLetter(data.letter);
+                updateCoverLetter(data.suggestions);
                 closeForm();
             })
             .catch((err) => message.error(err.response.data?.error))

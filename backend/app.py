@@ -294,7 +294,7 @@ def resume_suggest():
     ```
     '''
 
-    return ollama_connect.resume_suggest()
+    return ollama_connect.resume_suggest(Files)
 
 
 if __name__ == "__main__":
